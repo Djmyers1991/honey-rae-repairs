@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate} from "react-router-dom"
 import "./Tickets.css"
-
+ 
 
 export const TicketList = () => {
     const [tickets, setTickets] = useState([])//the initial state is zero
@@ -32,7 +32,7 @@ useEffect(
 //we're grabbing the data from whomever is logged in//
 //I'm confused as to to how we know where to grab the item.//
 
-    useEffect(
+ useEffect(
         () => {
             fetch(` http://localhost:8088/serviceTickets`)
             .then(response => response.json())
