@@ -8,6 +8,8 @@ export const TicketList = () => {
     const [tickets, setTickets] = useState([])//the initial state is zero
     const [filteredTickets, setFiltered] = useState([])
     const [emergency, setEmergency] = useState(false);
+    const [openOnly, updateOpenOnly] = useState(false);
+
     //we need this to filter the tickets to distinguish between staff and not staff. 
     const navigate = useNavigate()
 
@@ -61,6 +63,22 @@ useEffect(
         //The ticket itself is what will appear
     )
 
+useEffect(
+    () => {
+        if(openOnly) {
+        const openTicketArray = tickets.filter(ticket => {
+            return ticket.userId === honeyUserObject.id && ticket.dateCompleted === ""
+
+        })
+        setFiltered(openTicketArray)
+    }
+    else { const myTickets = tickets.filter(ticket => ticket.userId === honeyUserObject.id)
+        setFiltered(myTickets)
+    }
+    },
+    [openOnly]
+)
+
 
 //what we're doing below is adding a button to showcase the emergency functions
 //we're setting the emergency button to true when it is clicked.
@@ -78,7 +96,13 @@ useEffect(
     <button onClick={   () => setEmergency(true) } >Emergency Only</button>
     <button onClick={   () =>  setEmergency(false)  } >Show all</button>
     </> 
-    : <button onClick={() => navigate("/ticket/create")}>Create Ticket</button>
+    : <> 
+    <button onClick={() => navigate("/ticket/create")}>Create Ticket</button>
+    <button onClick={() => updateOpenOnly(true)}> Open Ticket</button>
+    <button onClick={() => updateOpenOnly(false)}> All My Tickets</button>
+
+
+    </>
     }
     
 
