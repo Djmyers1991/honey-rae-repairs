@@ -1,25 +1,26 @@
-import { Link, useNavigate } from "react-router-dom"
 import "./NavBar.css"
-
+import { CustomerNav } from "./CustomerNav"
+import { EmployeeNav } from "./EmployeeNav"
 export const NavBar = () => {
-    const navigate = useNavigate()
+    
+const localHoneyUser = localStorage.getItem("honey_user")
+const honeyUserObject = JSON.parse(localHoneyUser)
 
-    return (
-        <ul className="navbar">
-            <li className="navbar__item active">
-                <Link className="navbar__link" to="/tickets">Tickets</Link> 
-            </li> 
-            {
-                localStorage.getItem("honey_user")
-                    ? <li className="navbar__item navbar__logout">
-                        <Link className="navbar__link" to="" onClick={() => {
-                            localStorage.removeItem("honey_user")
-                            navigate("/", {replace: true})
-                        }}>Logout</Link>
-                    </li>
-                    : ""
-            }
-        </ul>
-    )
+if(honeyUserObject.staff) {
+
+    return <EmployeeNav />
+
 }
+
+else {
+    return <CustomerNav />
+
+}
+}
+// we are explaining what happens when you click it.
+
+// we must create two different views
+// we made a view for customers and employee, and we specified which view we would see based on the view we clicked.
+
+
 

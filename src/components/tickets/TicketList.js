@@ -1,10 +1,8 @@
-
 import { useEffect, useState } from "react"
 import { useNavigate} from "react-router-dom"
 import "./Tickets.css"
  
-
-export const TicketList = () => {
+export const TicketList = ({ searchTermState }) => {
     const [tickets, setTickets] = useState([])//the initial state is zero
     const [filteredTickets, setFiltered] = useState([])
     const [emergency, setEmergency] = useState(false);
@@ -15,6 +13,19 @@ export const TicketList = () => {
 
 const localHoneyUser = localStorage.getItem("honey_user")
 const honeyUserObject = JSON.parse(localHoneyUser)
+
+useEffect(
+    () => {
+        const searchedTickets = tickets.filter(ticket => {
+            return ticket.description.toLowerCase().startsWith(searchTermState.toLowerCase())
+        /* we must filter all of the tickets because we want to view them all*/
+        })
+        setFiltered(searchedTickets)
+        /* we're displaying the filtered ticekts which is why we need to update it. */
+    },
+
+    [ searchTermState ]
+)
 
 useEffect(
     () => {
@@ -117,6 +128,7 @@ useEffect(
                 return <section className="ticket" key={`ticket--${ticket.id}`}> 
                     <header>{ticket.description}</header>
                     <footer>Emergency: {ticket.emergency ? "IT'S GO TIME!!!" : "No"}</footer>
+                    The ternary operator 
                 </section>
             }
 
